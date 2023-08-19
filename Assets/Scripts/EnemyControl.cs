@@ -7,7 +7,7 @@ public class EnemyControl : MonoBehaviour
     GameObject scoreUITextGO; //reference to the text UI gameObject
     public GameObject ExplosionGO;
     float speed;
-
+    float timeLive;
     void Start()
     {
         speed = 2f;
@@ -19,12 +19,20 @@ public class EnemyControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeLive += Time.deltaTime;
+
         //get enemy current position
         Vector2 position = transform.position;
 
         //compute the enemy position
-        position = new Vector2(position.x, position.y - speed * Time.deltaTime);
-        
+        position = new Vector2(position.x+ Mathf.Sin(timeLive * 6)*0.02f, position.y - speed * Time.deltaTime);
+
+        //Rotaciona a nave de acordo o movimento
+        Vector2 direction = new Vector2 (transform.position.x, transform.position.y) - position;
+        float anguloEmRadianos = Mathf.Atan2(direction.y, direction.x);
+        float anguloEmGraus = anguloEmRadianos * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, anguloEmGraus-90), transform.rotation, .8f);
+
         //update the enemy position
         transform.position = position;
 
@@ -37,6 +45,7 @@ public class EnemyControl : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
     void OnTriggerEnter2D(Collider2D col)
     {

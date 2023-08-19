@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyGO;
-    float maxSpawnRateInSeconds = 5f;
+    float maxSpawnRateInSeconds = 1f;
 
     void Start()
     {
-      
+        wave1();
     }
 
     // Update is called once per frame
@@ -23,10 +23,35 @@ public class EnemySpawner : MonoBehaviour
         Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
         Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
 
-        GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
-        anEnemy.transform.position = new Vector2(Random.Range(min.x, max.x), max.y);
+        Vector2 spawnLeft = Camera.main.ViewportToWorldPoint(new Vector2(0, 0.25f));
+        Vector2 spawnRight = Camera.main.ViewportToWorldPoint(new Vector2(1, 0.25f));
+        Vector2 spawnTopLeft = Camera.main.ViewportToWorldPoint(new Vector2(0.25f, 1));
+        Vector2 spawnTopRight = Camera.main.ViewportToWorldPoint(new Vector2(0.75f, 1));
 
-        ScheduleNextEnemySpawn();
+
+        GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
+        anEnemy.transform.position = spawnTopLeft;
+        // anEnemy.transform.position = new Vector2(Random.Range(min.x, max.x), max.y); 
+        
+        // ScheduleNextEnemySpawn();
+    }
+
+    void wave1()
+    {
+        //Spawnar 8 naves, 4 em cada lado do TOP
+        Invoke("spawnTopLeft", 0.5f);
+        Invoke("spawnTopLeft", 1);
+        Invoke("spawnTopLeft", 1.5f);
+        Invoke("spawnTopLeft", 2);
+    }
+
+    void spawnTopLeft()
+    {
+        Vector2 spawnTopLeft = Camera.main.ViewportToWorldPoint(new Vector2(0.25f, 1));
+
+        GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
+        anEnemy.transform.position = spawnTopLeft;
+
     }
 
     void ScheduleNextEnemySpawn()
@@ -40,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnInNSeconds = 1f;
         }
-        Invoke("SpawnEnemy", spawnInNSeconds);
+        Invoke("SpawnEnemy", 0.5f);
     }
 
     //increase the dificulty of the game

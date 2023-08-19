@@ -5,18 +5,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate void PlayerDeathDelegate(PlayerController player);
+    public delegate void PlayerDamageDelegate(PlayerController player, int lives);
+    public delegate void PlayerScoredDelegate(PlayerController player, int score);
 
+    public event PlayerDeathDelegate PlayerDeathEvent;
+    public event PlayerDamageDelegate PlayerDamageEvent;
+    public event PlayerScoredDelegate PlayerScoredEvent;
+    
     public AudioSource shot;
-    public AudioSource explosionSound;
+    public AudioSource explosionSound; 
 
-    public GameObject GameManagerGO;
     public GameObject PlayerBulletGO;
     public GameObject bulletPosition01;
-    //public GameObject bulletPosition02;
     public GameObject ExplosionGO;
 
-    public Text LivesUIText;
-    const int MaxLives = 3;
+    // public Text LivesUIText;
+    public int MaxLives = 3;
     int lives;
 
     public float speed;
@@ -24,9 +29,7 @@ public class PlayerController : MonoBehaviour
     public void Init()
     {
         lives = MaxLives;
-
-        //update the lives UI text
-        LivesUIText.text = lives.ToString();
+        
 
         //Reset the player position to the center of the screen
         //transform.position = new Vector2(0, 0);
@@ -51,16 +54,11 @@ public class PlayerController : MonoBehaviour
 
             GameObject bullet01 = (GameObject)Instantiate(PlayerBulletGO);
             bullet01.transform.position = bulletPosition01.transform.position;
-
-            //GameObject bullet02 = (GameObject)Instantiate(PlayerBulletGO);
-            //bullet01.transform.position = bulletPosition02.transform.position;
         }
 
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = 0;
-
+        float x = Input.GetAxisRaw("Horizontal"); //Eixo horizontal
+        float y = 0; //Eixo vertical
         Vector2 direction = new Vector2(x, y).normalized;
-
         Move(direction);
     }
 
@@ -72,13 +70,11 @@ public class PlayerController : MonoBehaviour
         max.x = max.x - 0.225f;
         min.x = min.x + 0.225f;
 
-        Vector2 pos = transform.position;
+        Vector2 pos = transform.position; //Pega a posição atual do jogador
+        pos += direction * speed * Time.deltaTime; //calcula a nova posição do jogador
+        pos.x = Mathf.Clamp(pos.x, min.x, max.x); 
 
-        pos += direction * speed * Time.deltaTime;
-
-        pos.x = Mathf.Clamp(pos.x, min.x, max.x);
-
-        transform.position = pos;
+        transform.position = pos; // atualiza a posição do jogador
     }
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -87,10 +83,12 @@ public class PlayerController : MonoBehaviour
             PlayExplosion();
 
             lives--;
-            LivesUIText.text = lives.ToString();
+
+            PlayerDamageEvent(this, lives);
+            
             if(lives == 0)
             {
-                GameManagerGO.GetComponent<GameManager>().SetGameManagerState(GameManager.GameManagerState.GameOver);
+                PlayerDeathEvent(this);
 
                 //Destroy(gameObject);
                 gameObject.SetActive(false);
