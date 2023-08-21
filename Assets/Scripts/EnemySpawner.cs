@@ -1,57 +1,68 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject EnemyGO;
-    float maxSpawnRateInSeconds = 1f;
+
+    #region Parameters
+
+    
+    [SerializeField] private GameObject EnemyGO;
+    private float maxSpawnRateInSeconds = 1f;
+
+    private Vector3 spawnTopLeft;
+    private Vector3 spawnTopRight;
+    private Vector3 spawnRight;
+    private Vector3 spawnLeft;
+
+    [SerializeField] private Transform enemyFormation1;
+    private int currentFormation;
+
+    public int spawnLevel;
+    public bool canSpawn;
+
+    #endregion
 
     void Start()
     {
-        wave1();
+         spawnLeft = Camera.main.ViewportToWorldPoint(new Vector2(0, 0.25f)) + Vector3.left;
+         spawnRight = Camera.main.ViewportToWorldPoint(new Vector2(1, 0.25f)) + Vector3.right;
+         spawnTopLeft = Camera.main.ViewportToWorldPoint(new Vector2(0.25f, 1)) + Vector3.up;
+         spawnTopRight = Camera.main.ViewportToWorldPoint(new Vector2(0.75f, 1)) + Vector3.up;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        if (spawnLevel == 1)
+        {
+            spawnLevel = 0;
+            canSpawn = true;
+
+            wave1();
+        }
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(Vector3 spawnPoint, int moveSet)
     {
-        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
-        Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
-
-        Vector2 spawnLeft = Camera.main.ViewportToWorldPoint(new Vector2(0, 0.25f));
-        Vector2 spawnRight = Camera.main.ViewportToWorldPoint(new Vector2(1, 0.25f));
-        Vector2 spawnTopLeft = Camera.main.ViewportToWorldPoint(new Vector2(0.25f, 1));
-        Vector2 spawnTopRight = Camera.main.ViewportToWorldPoint(new Vector2(0.75f, 1));
-
-
         GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
-        anEnemy.transform.position = spawnTopLeft;
-        // anEnemy.transform.position = new Vector2(Random.Range(min.x, max.x), max.y); 
+        anEnemy.GetComponent<EnemyControl>().SetTgtPos(enemyFormation1.GetChild(currentFormation));
+        anEnemy.GetComponent<EnemyControl>().SetMoveSet(1);
+        currentFormation++;
+        anEnemy.transform.position = spawnPoint;
         
-        // ScheduleNextEnemySpawn();
+        Invoke("wave1",.5f);
     }
 
     void wave1()
     {
-        //Spawnar 8 naves, 4 em cada lado do TOP
-        Invoke("spawnTopLeft", 0.5f);
-        Invoke("spawnTopLeft", 1);
-        Invoke("spawnTopLeft", 1.5f);
-        Invoke("spawnTopLeft", 2);
-    }
-
-    void spawnTopLeft()
-    {
-        Vector2 spawnTopLeft = Camera.main.ViewportToWorldPoint(new Vector2(0.25f, 1));
-
-        GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
-        anEnemy.transform.position = spawnTopLeft;
-
+        
+        if (canSpawn && currentFormation < enemyFormation1.childCount)
+        {
+            SpawnEnemy(spawnTopLeft,1);
+        }
     }
 
     void ScheduleNextEnemySpawn()
@@ -68,31 +79,5 @@ public class EnemySpawner : MonoBehaviour
         Invoke("SpawnEnemy", 0.5f);
     }
 
-    //increase the dificulty of the game
-    void IncreaseSpawnRate()
-    {
-        if (maxSpawnRateInSeconds > 1f)
-            maxSpawnRateInSeconds--;
-        if (maxSpawnRateInSeconds == 1f)
-            CancelInvoke("IncreaseSpawnRate");
-    }
-
-    //start enemy spawner
-    public void ScheduleEnemySpawner()
-    {
-        //reset max spawn rate
-        maxSpawnRateInSeconds = 5f;
-
-        Invoke("SpawnEnemy", maxSpawnRateInSeconds);
-
-        //increase spawn rate every 30 sec
-        InvokeRepeating("IncreaseSpawnRate", 0f, 30f);
-    }
-
-    //stop enemy spawner
-    public void UnscheduleEnemySpawner()
-    {
-        CancelInvoke("SpawnEnemy");
-        CancelInvoke("IncreaseSpawnRate");
-    }
+    
 }

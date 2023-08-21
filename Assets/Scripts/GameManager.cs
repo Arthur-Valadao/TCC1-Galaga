@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
 
 
                 //start enemy spawner
-                enemySpawner.GetComponent<EnemySpawner>().ScheduleEnemySpawner();
 
                 break;
             
@@ -70,7 +69,6 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDeath(PlayerController player)
     {
         //Stop enemy spawner
-        enemySpawner.GetComponent<EnemySpawner>().UnscheduleEnemySpawner();
 
         //Display game over
         GameOverGO.SetActive(true);
