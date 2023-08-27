@@ -26,7 +26,7 @@ public class LifeSystem : MonoBehaviour
         GameController.gm.UpdateLife(currentLife);
     }
 
-    private void TakeDamage(int damageAmount)
+    public void TakeDamage(int damageAmount)
     {
         currentLife -= damageAmount;
         if (currentLife <= 0)

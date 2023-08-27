@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
     
     public void UpdateLife(int lifeAmount)
     {
-        lifeTxt.text = score.ToString();
+        lifeTxt.text = lifeAmount.ToString();
     }
 
     public void StartGame()

@@ -14,12 +14,6 @@ public class EnemyBullet : MonoBehaviour
         isReady = false;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void SetDirection(Vector2 direction)
     {
         _direction = direction.normalized;
@@ -50,6 +44,7 @@ public class EnemyBullet : MonoBehaviour
         if (col.tag == "PlayerShipTag")
         {
             Destroy(gameObject);
+            col.gameObject.GetComponent<LifeSystem>().TakeDamage(1);
         }
     }
 }
