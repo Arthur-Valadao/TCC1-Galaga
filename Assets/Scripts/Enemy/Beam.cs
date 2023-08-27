@@ -5,14 +5,23 @@ using UnityEngine;
 
 public class Beam : MonoBehaviour
 {
+    public GameObject capturedShip;
+
+    private void DisableShip()
+    {
+        capturedShip.GetComponent<PlayerController>().enabled = false;
+        capturedShip.transform.parent = transform.parent;
+        capturedShip.transform.position = transform.parent.position + Vector3.up * .4f;
+    }
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("PlayerShipTag"))
         {
-            other.GetComponent<PlayerController>().enabled = false;
-            other.transform.parent = transform.parent;
-            other.transform.position = transform.parent.position + Vector3.up * .4f;
-                //Vector3.Lerp(other.transform.position, transform.parent.position + Vector3.up, 0.01f);
+            capturedShip = other.gameObject;
+            DisableShip();
+            capturedShip.GetComponent<LifeSystem>().TakeDamage(1);
         }
     }
 }

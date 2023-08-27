@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class EnemyControl : MonoBehaviour
     private Transform tgtPos;
     private int moveSet;
 
+    private Beam beam;
     private EnemyGun gun;
 
     private bool boss;
@@ -30,6 +32,7 @@ public class EnemyControl : MonoBehaviour
     
     void Start()
     {
+        beam = Beam.GetComponent<Beam>();
         gun = GetComponent<EnemyGun>();
         limit = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .25f));
         delayTimer = attackDelay;
@@ -135,7 +138,7 @@ public class EnemyControl : MonoBehaviour
     private void Attack()
     {
         Beam.SetActive(true);
-        Invoke("DisableAttack",3f);
+        Invoke("DisableAttack",1.5f);
     }
 
     private void DisableAttack()
@@ -147,18 +150,38 @@ public class EnemyControl : MonoBehaviour
 
     #endregion
 
+    private void OnDisable()
+    {
+        EnableCapturedShip();
+    }
+
+    private void EnableCapturedShip()
+    {
+        if(beam.capturedShip != null)
+        {
+            Transform mainShip = GameController.gm.myShip.transform;
+            GameObject capturedShip = beam.capturedShip;
+            capturedShip.GetComponent<PlayerController>().enabled = true;
+            capturedShip.transform.parent = GameController.gm.myShip.transform;
+            int side;
+            if (mainShip.childCount % 2 == 0) side = 1;
+            else side = -1;
+            capturedShip.transform.position = GameController.gm.myShip.transform.position + Vector3.right * .5f;
+            capturedShip.SetActive(true);
+            capturedShip.GetComponent<PlayerController>().SetSpeed2Zero();
+        }
+    }
+    
     void OnTriggerEnter2D(Collider2D col)
     {
-        //Detect colision of the enemy ship with the player ship||bullet
-        if ((col.tag == "PlayerShipTag") || (col.tag == "PlayerBulletTag"))
+        if (col.tag == "PlayerBulletTag")
         {
             PlayExplosion();
-
-            //add 100 points to the score
-            scoreUITextGO.GetComponent<GameScore>().Score += 100;
+            
+            EnableCapturedShip();
 
             //Destroy enemy ship
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

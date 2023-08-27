@@ -35,8 +35,8 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-         spawnLeft = Camera.main.ViewportToWorldPoint(new Vector2(0, 0.25f)) + Vector3.left;
-         spawnRight = Camera.main.ViewportToWorldPoint(new Vector2(1, 0.25f)) + Vector3.right;
+         spawnLeft = Camera.main.ViewportToWorldPoint(new Vector2(0, 0.4f)) + Vector3.left;
+         spawnRight = Camera.main.ViewportToWorldPoint(new Vector2(1, 0.4f)) + Vector3.right;
          spawnTopLeft = Camera.main.ViewportToWorldPoint(new Vector2(0.25f, 1)) + Vector3.up;
          spawnTopRight = Camera.main.ViewportToWorldPoint(new Vector2(0.75f, 1)) + Vector3.up;
     }

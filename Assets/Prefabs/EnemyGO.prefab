@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6e71a6c93af374b9267b9f1d3a6737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capturedShip: {fileID: 0}
 --- !u!1 &4441114375206410932
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +339,7 @@ MonoBehaviour:
   scoreUITextGO: {fileID: 0}
   ExplosionGO: {fileID: 4625075101308711308, guid: e2ef71df9c7bfd6478dc839f9dbf7ac9, type: 3}
   Beam: {fileID: 1178463814}
+  beam: {fileID: 1178463818}
 --- !u!61 &7676086063643078125
 BoxCollider2D:
   m_ObjectHideFlags: 0

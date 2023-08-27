@@ -32,7 +32,6 @@ public class PlayerBullet : MonoBehaviour
         if (col.tag == "EnemyShipTag")
         {
             Destroy(gameObject);
-            col.gameObject.SetActive(false);
             GameController.gm.UpdateScore(100);
         }
     }

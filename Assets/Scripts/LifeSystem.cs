@@ -15,7 +15,8 @@ public class LifeSystem : MonoBehaviour
 
     private void Start()
     {
-        currentLife = maxLife;
+        if (GameController.gm.LifeAmount() != 0) currentLife = GameController.gm.LifeAmount();
+        else currentLife = maxLife;
         GameController.gm.UpdateLife(currentLife);
     }
 

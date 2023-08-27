@@ -157,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1233367984922055502, guid: c2a68ebffea6f4447961ec98ca5fc791, type: 3}
   speed: 4
+  player: {fileID: 5966322160210092644}
 --- !u!114 &3353321165040393121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63c283214ab540948b3ac88901189573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 3
+  maxLife: 15
 --- !u!61 &5966322160210092642
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -13,7 +13,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private TextMeshProUGUI scoreTxt;
     [SerializeField] private TextMeshProUGUI lifeTxt;
+    private int life;
     private int score;
+
+    public GameObject myShip;
 
     #endregion
 
@@ -30,9 +33,15 @@ public class GameController : MonoBehaviour
     
     public void UpdateLife(int lifeAmount)
     {
+        life = lifeAmount;
         lifeTxt.text = lifeAmount.ToString();
     }
 
+    public int LifeAmount()
+    {
+        return life;
+    }
+    
     public void StartGame()
     {
         enemySpawner.spawnLevel = 1;
