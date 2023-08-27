@@ -1899,6 +1899,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1810558636}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1345564522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2195,6 +2207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 406529542}
+  scoreTxt: {fileID: 1605495676}
+  lifeTxt: {fileID: 352474611}
 --- !u!4 &1615236424
 Transform:
   m_ObjectHideFlags: 0
@@ -2486,6 +2500,11 @@ Transform:
   m_Father: {fileID: 565196178}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1810558636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5966322160210092644, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
+  m_PrefabInstance: {fileID: 5966322160620535052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1830894903
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,29 +3039,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5966322160210092640, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
-      propertyPath: LivesUIText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5966322160210092640, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
-      propertyPath: GameManagerGO
-      value: 
-      objectReference: {fileID: 191583922}
     - target: {fileID: 5966322160210092644, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
       propertyPath: m_Name
       value: PlayerGO
-      objectReference: {fileID: 0}
-    - target: {fileID: 5966322160210092644, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5966322160210092646, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5966322160210092646, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1700062633
       objectReference: {fileID: 0}
     - target: {fileID: 5966322160210092647, guid: b3f5f6ab90756ba45b50ca937033351b, type: 3}
       propertyPath: m_RootOrder

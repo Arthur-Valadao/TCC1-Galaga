@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5966322160210092646}
   - component: {fileID: 5966322160210092645}
   - component: {fileID: 5966322160210092640}
+  - component: {fileID: 3353321165040393121}
   - component: {fileID: 5966322160210092642}
   - component: {fileID: 5966322160210092641}
   - component: {fileID: 5966322160210092643}
@@ -53,7 +54,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5966322160210092647
 Transform:
   m_ObjectHideFlags: 0
@@ -108,8 +109,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1700062633
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 762381499, guid: dc89712528be1ca4d9bab10dcebc2a7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -154,14 +155,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7482107baba161b4abbcbd247e97eef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shot: {fileID: 5966322160210092643}
-  explosionSound: {fileID: 5966322160210092668}
-  GameManagerGO: {fileID: 0}
-  PlayerBulletGO: {fileID: 1233367984922055502, guid: c2a68ebffea6f4447961ec98ca5fc791, type: 3}
-  bulletPosition01: {fileID: 5966322158891725741}
-  ExplosionGO: {fileID: 4625075101308711308, guid: e2ef71df9c7bfd6478dc839f9dbf7ac9, type: 3}
-  LivesUIText: {fileID: 0}
-  speed: 5
+  bullet: {fileID: 1233367984922055502, guid: c2a68ebffea6f4447961ec98ca5fc791, type: 3}
+  speed: 4
+--- !u!114 &3353321165040393121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5966322160210092644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c283214ab540948b3ac88901189573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLife: 3
 --- !u!61 &5966322160210092642
 BoxCollider2D:
   m_ObjectHideFlags: 0

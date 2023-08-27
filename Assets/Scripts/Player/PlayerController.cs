@@ -1,109 +1,43 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    public delegate void PlayerDeathDelegate(PlayerController player);
-    public delegate void PlayerDamageDelegate(PlayerController player, int lives);
-    public delegate void PlayerScoredDelegate(PlayerController player, int score);
+    #region Parameters
 
-    public event PlayerDeathDelegate PlayerDeathEvent;
-    public event PlayerDamageDelegate PlayerDamageEvent;
-    public event PlayerScoredDelegate PlayerScoredEvent;
-    
-    public AudioSource shot;
-    public AudioSource explosionSound; 
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private float speed;
+    private float rightLimit;
+    private float leftLimit;
 
-    public GameObject PlayerBulletGO;
-    public GameObject bulletPosition01;
-    public GameObject ExplosionGO;
+    #endregion
 
-    // public Text LivesUIText;
-    public int MaxLives = 3;
-    int lives;
-
-    public float speed;
-
-    public void Init()
+    private void Awake()
     {
-        lives = MaxLives;
-        
-
-        //Reset the player position to the center of the screen
-        //transform.position = new Vector2(0, 0);
-
-        //set player game object 
-        gameObject.SetActive(true);
+        rightLimit = Camera.main.ViewportToWorldPoint(new Vector2(.9f, 0)).x;
+        leftLimit = Camera.main.ViewportToWorldPoint(new Vector2(.1f, 0)).x;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
+        Move(Input.GetAxis("Horizontal"));
+        if (Input.GetButtonDown("Jump")) Shoot();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Shoot()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            //play audio of bullet
-            shot.Play();
-
-            GameObject bullet01 = (GameObject)Instantiate(PlayerBulletGO);
-            bullet01.transform.position = bulletPosition01.transform.position;
-        }
-
-        float x = Input.GetAxisRaw("Horizontal"); //Eixo horizontal
-        float y = 0; //Eixo vertical
-        Vector2 direction = new Vector2(x, y).normalized;
-        Move(direction);
+        GameObject shoot = Instantiate(bullet);
+        shoot.transform.position = transform.position;
     }
 
-    void Move(Vector2 direction)
+    private void Move(float direction)
     {
-        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
-        Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
-
-        max.x = max.x - 0.225f;
-        min.x = min.x + 0.225f;
-
-        Vector2 pos = transform.position; //Pega a posi��o atual do jogador
-        pos += direction * speed * Time.deltaTime; //calcula a nova posi��o do jogador
-        pos.x = Mathf.Clamp(pos.x, min.x, max.x); 
-
-        transform.position = pos; // atualiza a posi��o do jogador
-    }
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        /*
-          if((col.tag == "EnemyShipTag") || (col.tag == "EnemyBulletTag"))
-         
-        {
-            PlayExplosion();
-
-            lives--;
-
-            PlayerDamageEvent(this, lives);
-            
-            if(lives == 0)
-            {
-                PlayerDeathEvent(this);
-
-                //Destroy(gameObject);
-                gameObject.SetActive(false);
-            }   
-        }
-        */
-    }
-
-    void PlayExplosion()
-    {
-        explosionSound.Play();
-
-        GameObject explosion = (GameObject)Instantiate(ExplosionGO);
-        explosion.transform.position = transform.position;
+        Vector3 newPosition = new Vector3(transform.position.x + direction * speed * Time.deltaTime,transform.position.y,transform.position.z);
+        if (newPosition.x > leftLimit && newPosition.x < rightLimit) transform.position = newPosition;
     }
 }

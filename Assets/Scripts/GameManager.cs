@@ -52,11 +52,13 @@ public class GameManager : MonoBehaviour
                 playButton.SetActive(false);
 
                 //set the player visible(active) and init the player lives
+                /*
                 _player = Instantiate(playerPrefab, playerStart.transform.position, quaternion.identity);
                 _player.GetComponent<PlayerController>().PlayerDeathEvent += OnPlayerDeath;
                 _player.GetComponent<PlayerController>().PlayerDamageEvent += OnPlayerDamage;
                 _player.GetComponent<PlayerController>().Init();
                 livesUIText.text = _player.GetComponent<PlayerController>().MaxLives.ToString();
+                */
 
 
                 //start enemy spawner
