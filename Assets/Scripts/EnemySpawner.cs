@@ -28,6 +28,9 @@ public class EnemySpawner : MonoBehaviour
     public int spawnLevel;
     public bool canSpawn;
 
+    private int bossInitCount = 4; //default = 8
+    private int bossEndCount = 7; //default = 11
+
     #endregion
 
     void Start()
@@ -54,7 +57,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
         anEnemy.GetComponent<EnemyControl>().SetTgtPos(enemyFormation1.GetChild(currentFormation));
         anEnemy.GetComponent<EnemyControl>().SetMoveSet(moveSet);
-        if(currentFormation is <= 11 and >= 8) anEnemy.GetComponent<EnemyControl>().IsTheBoss();
+        if(currentFormation <= bossEndCount &&  currentFormation >= bossInitCount) anEnemy.GetComponent<EnemyControl>().IsTheBoss();
         
         currentFormation++;
         anEnemy.transform.position = spawnPoint;
