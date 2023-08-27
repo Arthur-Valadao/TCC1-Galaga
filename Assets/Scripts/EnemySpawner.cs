@@ -18,7 +18,11 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 spawnRight;
     private Vector3 spawnLeft;
 
+    private bool top = true;
+    private bool right = false;
+
     [SerializeField] private Transform enemyFormation1;
+    
     private int currentFormation;
 
     public int spawnLevel;
@@ -49,11 +53,13 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject anEnemy = (GameObject)Instantiate(EnemyGO);
         anEnemy.GetComponent<EnemyControl>().SetTgtPos(enemyFormation1.GetChild(currentFormation));
-        anEnemy.GetComponent<EnemyControl>().SetMoveSet(1);
+        anEnemy.GetComponent<EnemyControl>().SetMoveSet(moveSet);
+        if(currentFormation is <= 11 and >= 8) anEnemy.GetComponent<EnemyControl>().IsTheBoss();
+        
         currentFormation++;
         anEnemy.transform.position = spawnPoint;
-        
-        Invoke("wave1",.5f);
+        anEnemy.transform.parent = gameObject.transform;
+
     }
 
     void wave1()
@@ -61,8 +67,23 @@ public class EnemySpawner : MonoBehaviour
         
         if (canSpawn && currentFormation < enemyFormation1.childCount)
         {
-            SpawnEnemy(spawnTopLeft,1);
+            if(top && !right) SpawnEnemy(spawnTopLeft,1);
+            else if(top && right) SpawnEnemy(spawnTopRight,1);
+            else if(!top && !right) SpawnEnemy(spawnLeft,2);
+            else if(!top && right) SpawnEnemy(spawnRight,3);
         }
+
+        if (currentFormation % 8 == 0)
+        {
+            top = !top;
+            Invoke("wave1",1.5f);
+        }
+        else if (currentFormation % 4 == 0)
+        {
+            right = !right;
+            Invoke("wave1",1.5f);
+        }
+        else if (canSpawn && currentFormation < enemyFormation1.childCount) Invoke("wave1",.5f);
     }
 
     void ScheduleNextEnemySpawn()

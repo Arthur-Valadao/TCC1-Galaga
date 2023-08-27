@@ -70,15 +70,17 @@ public class PlayerController : MonoBehaviour
         max.x = max.x - 0.225f;
         min.x = min.x + 0.225f;
 
-        Vector2 pos = transform.position; //Pega a posição atual do jogador
-        pos += direction * speed * Time.deltaTime; //calcula a nova posição do jogador
+        Vector2 pos = transform.position; //Pega a posiï¿½ï¿½o atual do jogador
+        pos += direction * speed * Time.deltaTime; //calcula a nova posiï¿½ï¿½o do jogador
         pos.x = Mathf.Clamp(pos.x, min.x, max.x); 
 
-        transform.position = pos; // atualiza a posição do jogador
+        transform.position = pos; // atualiza a posiï¿½ï¿½o do jogador
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if((col.tag == "EnemyShipTag") || (col.tag == "EnemyBulletTag"))
+        /*
+          if((col.tag == "EnemyShipTag") || (col.tag == "EnemyBulletTag"))
+         
         {
             PlayExplosion();
 
@@ -94,6 +96,7 @@ public class PlayerController : MonoBehaviour
                 gameObject.SetActive(false);
             }   
         }
+        */
     }
 
     void PlayExplosion()

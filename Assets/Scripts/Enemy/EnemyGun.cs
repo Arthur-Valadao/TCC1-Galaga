@@ -6,19 +6,18 @@ public class EnemyGun : MonoBehaviour
 {
     public GameObject EnemyBulletGO;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
-        Invoke("FireEnemyBullet", 1f);
+        RetardGunFire(1f);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RetardGunFire(float timer)
     {
-        
+        Invoke("FireEnemyBullet", timer);
     }
 
-    void FireEnemyBullet()
+    public void FireEnemyBullet()
     {
         GameObject playerShip = GameObject.Find("PlayerGO");
 
