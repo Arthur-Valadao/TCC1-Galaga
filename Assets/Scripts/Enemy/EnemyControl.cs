@@ -163,7 +163,7 @@ public class EnemyControl : MonoBehaviour
             Transform mainShip = GameController.gm.myShip.transform;
             GameObject capturedShip = beam.capturedShip;
             capturedShip.GetComponent<PlayerController>().enabled = true;
-            capturedShip.transform.parent = GameController.gm.myShip.transform;
+            if(capturedShip.activeSelf) capturedShip.transform.parent = GameController.gm.myShip.transform;
             int side;
             if (mainShip.childCount % 2 == 0) side = 1;
             else side = -1;
