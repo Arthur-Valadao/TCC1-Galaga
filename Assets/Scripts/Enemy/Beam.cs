@@ -23,7 +23,7 @@ public class Beam : MonoBehaviour
         {
             capturedShip = other.gameObject;
             DisableShip();
-            capturedShip.GetComponent<LifeSystem>().BeamDamage(1);
+            capturedShip.GetComponent<LifeSystem>().TakeDamage(1);
         }
     }
 }

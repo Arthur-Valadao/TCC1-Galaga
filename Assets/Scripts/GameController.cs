@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public bool canRespawn;
     private int life;
     private int score;
+    [SerializeField] private int scoreNeedToHeal;
 
     public bool canGalagaAttack;
     public GameObject myShip;
@@ -39,6 +40,9 @@ public class GameController : MonoBehaviour
     public void UpdateScore(int scoreAmount)
     {
         score += scoreAmount;
+        
+        if(score % scoreNeedToHeal == 0) myShip.GetComponent<LifeSystem>().LifeUp(1);
+        
         scoreTxt.text = score.ToString();
         UpdateHighscore();
     }

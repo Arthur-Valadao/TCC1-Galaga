@@ -23,26 +23,14 @@ public class LifeSystem : MonoBehaviour
         anim = GetComponent<PlayerAnim>();
     }
 
-    private void Heal(int healAmount)
+    public void LifeUp(int healAmount)
     {
         currentLife += healAmount;
-        if (currentLife > maxLife) currentLife = maxLife;
+        //if (currentLife > maxLife) currentLife = maxLife;
         GameController.gm.UpdateLife(currentLife);
     }
 
     public void TakeDamage(int damageAmount)
-    {
-        currentLife -= damageAmount;
-        if (currentLife <= 0)
-        {
-            currentLife = 0;
-            Death();
-        }
-       // anim.PlayAnim("PlayerExplosion");  // LINHA DO CAOS
-        GameController.gm.UpdateLife(currentLife);
-    }
-
-    public void BeamDamage(int damageAmount)
     {
         currentLife -= damageAmount;
         if (currentLife <= 0)

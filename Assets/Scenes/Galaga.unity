@@ -2587,6 +2587,7 @@ MonoBehaviour:
   gameOver: {fileID: 583189769}
   buttonRestart: {fileID: 303310896}
   canRespawn: 0
+  scoreNeedToHeal: 1000
   canGalagaAttack: 0
   myShip: {fileID: 0}
 --- !u!4 &1615236424
