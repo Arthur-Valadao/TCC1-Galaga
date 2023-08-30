@@ -88,20 +88,5 @@ public class EnemySpawner : MonoBehaviour
         }
         else if (canSpawn && currentFormation < enemyFormation1.childCount) Invoke("wave1",.5f);
     }
-
-    void ScheduleNextEnemySpawn()
-    {
-        float spawnInNSeconds;
-        if(maxSpawnRateInSeconds > 1f)
-        {
-            spawnInNSeconds = Random.Range(1f, maxSpawnRateInSeconds);
-        }
-        else
-        {
-            spawnInNSeconds = 1f;
-        }
-        Invoke("SpawnEnemy", 0.5f);
-    }
-
-    
+   
 }
