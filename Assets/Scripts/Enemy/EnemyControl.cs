@@ -57,7 +57,7 @@ public class EnemyControl : MonoBehaviour
         else if (moveSet == 1) basicWave();
         else if (moveSet == 2) basicWave2Right();
         else if (moveSet == 3) basicWave2Left();
-        if(boss && delayTimer > 0)
+        if(boss && delayTimer > 0 && GameController.gm.canGalagaAttack)
         {
             delayTimer -= Time.deltaTime;
         }
@@ -66,6 +66,7 @@ public class EnemyControl : MonoBehaviour
     private void PlayExplosion()
     {
         GameObject explosion = (GameObject)Instantiate(ExplosionGO);
+        SFXcontroller.sfxcontroller.PlayExplosionSound();
         explosion.transform.position = transform.position;
     }
 
@@ -166,7 +167,7 @@ public class EnemyControl : MonoBehaviour
             int side;
             if (mainShip.childCount % 2 == 0) side = 1;
             else side = -1;
-            capturedShip.transform.position = GameController.gm.myShip.transform.position + Vector3.right * .5f;
+            capturedShip.transform.position = GameController.gm.myShip.transform.position + Vector3.right * .5f * side;
             capturedShip.SetActive(true);
             capturedShip.GetComponent<PlayerController>().SetSpeed2Zero();
         }

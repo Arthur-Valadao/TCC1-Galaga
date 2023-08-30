@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed;
     private float rightLimit;
     private float leftLimit;
-
+    
     [SerializeField] private GameObject player;
     private Vector3 startPos = new Vector3(0, -2.7f, 0);
 
@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private void Shoot()
     {
         GameObject shoot = Instantiate(bullet);
+        SFXcontroller.sfxcontroller.PlayLaserSound();
         shoot.transform.position = transform.position;
     }
 
@@ -57,10 +58,13 @@ public class PlayerController : MonoBehaviour
 
     private void RespawnPlayer()
     {
-        GameObject newShip = Instantiate(player);
-        newShip.transform.position = startPos;
-        newShip.SetActive(true);
-        newShip.GetComponent<PlayerController>().enabled = true;
-        GameController.gm.myShip = newShip;
+        if(GameController.gm.canRespawn)
+        {
+            GameObject newShip = Instantiate(player);
+            newShip.transform.position = startPos;
+            newShip.SetActive(true);
+            newShip.GetComponent<PlayerController>().enabled = true;
+            GameController.gm.myShip = newShip;
+        }
     }
 }

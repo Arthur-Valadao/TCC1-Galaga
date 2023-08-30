@@ -7,10 +7,11 @@ using UnityEngine;
 public class LifeSystem : MonoBehaviour
 {
     #region Parameters
-
+    
     [SerializeField] private int maxLife;
     private int currentLife;
-
+    private PlayerAnim anim;
+    
     #endregion
 
     private void Start()
@@ -18,6 +19,8 @@ public class LifeSystem : MonoBehaviour
         if (GameController.gm.LifeAmount() != 0) currentLife = GameController.gm.LifeAmount();
         else currentLife = maxLife;
         GameController.gm.UpdateLife(currentLife);
+
+        anim = GetComponent<PlayerAnim>();
     }
 
     private void Heal(int healAmount)
@@ -35,11 +38,25 @@ public class LifeSystem : MonoBehaviour
             currentLife = 0;
             Death();
         }
+       // anim.PlayAnim("PlayerExplosion");  // LINHA DO CAOS
+        GameController.gm.UpdateLife(currentLife);
+    }
+
+    public void BeamDamage(int damageAmount)
+    {
+        currentLife -= damageAmount;
+        if (currentLife <= 0)
+        {
+            currentLife = 0;
+            Death();
+        }
         GameController.gm.UpdateLife(currentLife);
     }
 
     private void Death()
     {
         gameObject.SetActive(false);
+        SFXcontroller.sfxcontroller.PlayExplosionSound();
+        GameController.gm.GameOver();
     }
 }

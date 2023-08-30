@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -13,9 +14,15 @@ public class GameController : MonoBehaviour
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private TextMeshProUGUI scoreTxt;
     [SerializeField] private TextMeshProUGUI lifeTxt;
+    [SerializeField] private TextMeshProUGUI HighScore;
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameObject buttonRestart;
+    
+    public bool canRespawn;
     private int life;
     private int score;
 
+    public bool canGalagaAttack;
     public GameObject myShip;
 
     #endregion
@@ -23,12 +30,27 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         gm = this;
+        canRespawn = true;
+        canGalagaAttack = true;
+        
+        HighScore.text = PlayerPrefs.GetInt("score", 0).ToString();
     }
 
     public void UpdateScore(int scoreAmount)
     {
         score += scoreAmount;
         scoreTxt.text = score.ToString();
+        UpdateHighscore();
+    }
+
+    private void UpdateHighscore()
+    {
+        int currentHighscore = PlayerPrefs.GetInt("score",0);
+        if(score > currentHighscore)
+        {
+            HighScore.text = score.ToString();
+            PlayerPrefs.SetInt("score", score);
+        }
     }
     
     public void UpdateLife(int lifeAmount)
@@ -45,6 +67,18 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         enemySpawner.spawnLevel = 1;
+    }
+
+    public void GameOver()
+    {
+        canRespawn = false;
+        gameOver.SetActive(true);
+        buttonRestart.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Galaga");
     }
     
 }
